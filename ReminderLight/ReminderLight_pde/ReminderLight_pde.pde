@@ -6,7 +6,7 @@
  * Created 2011
  * by: M@
  * http://Mampersat.com
- * Git Repository:
+ * Has no battery saving techniques
  */
 
 const int buttonPin = 2;     
