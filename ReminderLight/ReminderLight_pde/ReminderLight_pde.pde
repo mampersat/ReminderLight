@@ -9,11 +9,13 @@
  * Has no battery saving techniques
  */
 
+#include <avr/sleep.h>
+
 const int buttonPin = 2;     
 const int ledPin =  13;      
 
 const unsigned long solidTime = 3000;      // Time to stay light after activation
-const unsigned long blinkTime = 3600;   // Time to blink
+const unsigned long blinkTime = 3000; //7200000;   // Time to blink
 const unsigned long blinkRate = 500;       // Time between blinks
 const unsigned long blinkSpan = 200;       // Time on in a blink
 
@@ -22,8 +24,25 @@ int lastButtonState = buttonState;
 unsigned long startTime = 0;
 
 void setup() {
+
   pinMode(ledPin, OUTPUT);      
-  pinMode(buttonPin, INPUT);     
+  pinMode(buttonPin, INPUT);   
+
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  sleep_enable();
+  attachInterrupt(0, wakeUpNow, CHANGE);  
+
+}
+
+void sleepNow() {
+
+   sleep_mode();
+   //sleep_disable();
+   //detachInterrupt(0);
+   
+}
+
+void wakeUpNow() {
 }
 
 void loop(){
@@ -46,6 +65,7 @@ void loop(){
     {
       digitalWrite(ledPin, LOW);
       startTime = 0;
+      sleepNow();
     }
     else 
     {
